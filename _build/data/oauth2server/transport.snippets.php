@@ -48,5 +48,12 @@ $snippets[3]->fromArray(array (
   'name' => 'grantOAuth2Tokens',
 ), '', true, true);
 $snippets[3]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/grantoauth2tokens.snippet.php'));
+$snippets[4] = $modx->newObject('modSnippet');
+$snippets[4]->fromArray(array (
+    'id' => 4,
+    'description' => '',
+    'name' => 'removeUserAccess',
+), '', true, true);
+$snippets[4]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/removeuseraccess.snippet.php'));
 
 return $snippets;

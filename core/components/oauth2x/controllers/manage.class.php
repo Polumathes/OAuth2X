@@ -6,11 +6,12 @@ require_once dirname(dirname(__FILE__)) . '/index.class.php';
  * @package OAuth2Server
  * @subpackage controllers
  */
-class OAuth2ServerManageManagerController extends OAuth2ServerBaseManagerController {
+
+class Oauth2xManageManagerController extends Oauth2xManagerController {
     public function process(array $scriptProperties = array()) {
 
     }
-    public function getPageTitle() { return $this->modx->lexicon('oauth2server'); }
+    public function getPageTitle() { return $this->modx->lexicon('oauth2server.menu.manage'); }
     public function loadCustomCssJs() {
         
         $this->addJavascript($this->oauth2server->getOption('jsUrl').'mgr/widgets/clients.window.js');

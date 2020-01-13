@@ -34,9 +34,9 @@ class OAuth2Server
         $this->modx =& $modx;
         $this->namespace = $this->getOption('namespace', $options, 'oauth2server');
 
-        $corePath = $this->getOption('core_path', $options, $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/oauth2server/');
-        $assetsPath = $this->getOption('assets_path', $options, $this->modx->getOption('assets_path', null, MODX_ASSETS_PATH) . 'components/oauth2server/');
-        $assetsUrl = $this->getOption('assets_url', $options, $this->modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/oauth2server/');
+        $corePath = $this->getOption('core_path', $options, $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/oauth2x/');
+        $assetsPath = $this->getOption('assets_path', $options, $this->modx->getOption('assets_path', null, MODX_ASSETS_PATH) . 'components/oauth2x/');
+        $assetsUrl = $this->getOption('assets_url', $options, $this->modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/oauth2x/');
         $dbPrefix = $this->getOption('table_prefix', $options, $this->modx->getOption('table_prefix', null, 'modx_'));
 
         /* load config defaults */
@@ -85,15 +85,12 @@ class OAuth2Server
             'user_table' => $dbPrefix . 'users'
         );
 
-        $this->modx->addPackage('oauth2server', $this->options['modelPath'], $this->modx->config['table_prefix']);
-        $this->modx->lexicon->load('oauth2server:default');
+        $this->modx->addPackage('oauth2x', $this->options['modelPath'], $this->modx->config['table_prefix']);
+        $this->modx->lexicon->load('oauth2x:default');
 
         // Load OAuth2
         require_once($this->options['oauth2Path'] . 'Autoloader.php');
         OAuth2\Autoloader::register();
-
-//        require_once('oauth2serveruserstorage.class.php');
-
     }
 
     /**
@@ -113,11 +110,11 @@ class OAuth2Server
         }
 
         // Init user storage
-//        $userstorage = new OAuth2ServerUserStorage($this->modx);
-//        if(!$userstorage instanceof OAuth2ServerUserStorage) {
-//            $this->modx->log(modX::LOG_LEVEL_ERROR, '[OAuth2Server] could not load a valid user storage class!');
-//            return null;
-//        }
+        $userstorage = new OAuth2\Storage\MODxUserCredentials($this->modx);
+        if(!$userstorage instanceof OAuth2\Storage\MODxUserCredentials) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, '[OAuth2Server] could not load a valid user storage class!');
+            return null;
+        }
 
         // Init server
         $server = new OAuth2\Server($storage, $this->options['server']);
@@ -133,10 +130,9 @@ class OAuth2Server
         $server->addGrantType(new OAuth2\GrantType\AuthorizationCode($storage));
         $server->addGrantType(new OAuth2\GrantType\RefreshToken($storage, $this->options['server']));
         $server->addGrantType(new OAuth2\GrantType\ClientCredentials($storage, $this->options['server']));
-        $server->addGrantType(new OAuth2\GrantType\UserCredentials($storage));
+        $server->addGrantType(new OAuth2\GrantType\UserCredentials($userstorage));
 
         return $server;
-
     }
 
     /**

@@ -34,7 +34,7 @@ $menus[1]->fromArray( array (
   'handler' => '',
   'permissions' => '',
   'action' => 'manage',
-  'namespace' => 'oauth2server',
+  'namespace' => 'oauth2x',
   'id' => 1,
 ), '', true, true);
 

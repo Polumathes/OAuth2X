@@ -1,12 +1,11 @@
 <?php
+namespace OAuth2\Storage;
 
-use OAuth2\Storage\UserCredentialsInterface;
-
-class OAuth2ServerUserStorage implements UserCredentialsInterface {
+class MODxUserCredentials implements UserCredentialsInterface {
 
     public $modx;
 
-    function __construct(MODx &$modx){
+    function __construct(\MODx &$modx){
         $this->modx = $modx;
     }
 

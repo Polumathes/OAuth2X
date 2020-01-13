@@ -16,7 +16,7 @@ $components = array(
     'packageName' => 'OAuth2X',  /* No spaces, no dashes */
     'packageNameLower' => $packageNameLower,
     'packageDescription' => '',
-    'version' => '0.0.1',
+    'version' => '0.1.0',
     'release' => '',
     'author' => 'Grey Sky Media',
     'email' => 'support@greyskymedia.com',
@@ -94,10 +94,14 @@ $components = array(
     'namespaces' => array(
         'oauth2server' => array(
             'name' => 'oauth2server',
-            'path' => '{core_path}components/oauth2server/',
-            'assets_path' => '{assets_path}components/oauth2server/',
+            'path' => '{core_path}components/oauth2x/',
+            'assets_path' => '{assets_path}components/oauth2x/',
         ),
-
+        'oauth2x' => array(
+            'name' => 'oauth2x',
+            'path' => '{core_path}components/oauth2x/',
+            'assets_path' => '{assets_path}components/oauth2x/',
+        ),
     ),
 
     /* ************************ CONTEXT(S) ************************* */
