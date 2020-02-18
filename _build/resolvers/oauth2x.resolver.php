@@ -23,7 +23,7 @@
 if ($object->xpdo) {
     $modx =& $object->xpdo;
     $modelPath = $modx->getOption('core_path').'components/oauth2x/model/';
-    $modx->addPackage('oath2x',$modelPath);
+    $modx->addPackage('oauth2x',$modelPath);
     $manager = $modx->getManager();
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         case xPDOTransport::ACTION_INSTALL:
@@ -36,6 +36,12 @@ if ($object->xpdo) {
             break;
 
         case xPDOTransport::ACTION_UPGRADE:
+            $modx->cacheManager->refresh(array(
+                'lexicon_topics' => array(
+                    'lexicon' => array(
+                        array(
+                            'en' => ['default']
+                        )))));
             break;
 
         case xPDOTransport::ACTION_UNINSTALL:

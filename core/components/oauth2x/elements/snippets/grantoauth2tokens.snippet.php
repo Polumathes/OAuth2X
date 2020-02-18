@@ -1,29 +1,47 @@
 <?php
 /**
- * grantOAuth2Tokens snippet for OAuth2X extra
+ * grantOAuth2Tokens
  *
- * Copyright 2019 by Grey Sky Media support@greyskymedia.com
- * Created on 01-08-2020
+ * Grants OAuth2 Tokens
  *
- * OAuth2X is free software; You may use or change the software for your own personal
- * or commercial use. However, you may not sell or distribute in whole or in part this software.
+ * @package OAuth2Server
+ * @author @sepiariver <yj@modx.com>
+ * Copyright 2015 by YJ Tso
  *
- * OAuth2X is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE.
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
  *
- * @package oauth2x
- */
-
-/**
- * Description
- * -----------
- * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
  *
- * Variables
- * ---------
- * @var $modx modX
- * @var $scriptProperties array
- *
- * @package oauth2x
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
  **/
+
+// Paths
+$oauth2Path = $modx->getOption('oauth2x.core_path', null, $modx->getOption('core_path') . 'components/oauth2x/');
+$oauth2Path .= 'model/oauth2x/';
+
+// Get Class
+if (file_exists($oauth2Path . 'oauth2server.class.php')) $oauth2 = $modx->getService('oauth2server', 'OAuth2Server', $oauth2Path, $scriptProperties);
+if (!($oauth2 instanceof OAuth2Server)) {
+    $modx->log(modX::LOG_LEVEL_ERROR, '[grantOAuth2Tokens] could not load the required class!');
+    return;
+}
+// We need these
+$server = $oauth2->createServer();
+$request = $oauth2->createRequest();
+$response = $oauth2->createResponse();
+if (!$server || !$request || !$response) {
+    $modx->log(modX::LOG_LEVEL_WARN, '[verifyOAuth2]: could not create the required OAuth2 Server objects.');
+    return;
+}
+
+// Handle Token Requests
+$post = modX::sanitize($_POST, $modx->sanitizePatterns);
+$server->handleTokenRequest($request)->send();

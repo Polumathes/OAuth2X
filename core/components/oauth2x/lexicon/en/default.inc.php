@@ -71,3 +71,5 @@ $_lang['oauth2server.err.item_name_ns'] = 'Name is not specified.';
 $_lang['oauth2server.err.item_remove'] = 'An error occurred while trying to remove the Item.';
 $_lang['oauth2server.err.item_save'] = 'An error occurred while trying to save the Item.';
 
+$_lang['OAuth2x.logout_success'] = 'Logged Out';
+$_lang['OAuth2x.logout_failure'] = 'Token not found';

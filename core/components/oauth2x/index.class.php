@@ -1,10 +1,10 @@
 <?php
-require_once dirname(__FILE__) . '/model/oauth2server/oauth2server.class.php';
+require_once dirname(__FILE__) . '/model/oauth2x/oauth2server.class.php';
 /**
  * @package OAuth2Server
  */
 
-abstract class OAuth2ServerBaseManagerController extends modExtraManagerController {
+abstract class Oauth2xManagerController extends modExtraManagerController {
     /** @var Oauth2Server $oauth2server */
     public $oauth2server;
     public function initialize() {
@@ -22,7 +22,18 @@ abstract class OAuth2ServerBaseManagerController extends modExtraManagerControll
         parent::initialize();
     }
     public function getLanguageTopics() {
-        return array('oauth2server:default');
+        return array('oauth2x:default');
     }
     public function checkPermissions() { return true;}
+}
+
+class IndexManagerController extends Oauth2xManagerController {
+    /**
+     * Defines the name or path to the default controller to load.
+     *
+     * @return string
+     */
+    public static function getDefaultController() {
+        return 'manage';
+    }
 }
