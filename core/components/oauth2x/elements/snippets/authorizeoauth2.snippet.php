@@ -30,12 +30,46 @@
 /**
  * @param int $userauth Set to 1 if using UserCredential grant type.
  */
+/*
+ * Only for authorization code grand type
+ */
+if($_REQUEST['response_type']=='code'){
+
+  //print_r(base64_decode($_REQUEST['entrystate']));die();
+    $urldata      = explode('-gsmsaas-',base64_decode($_REQUEST['entrystate'],true));
+    $properties   = array(
+            'login_context' => $modx->getOption('oauth2server_login_context',null,'web'),
+            'add_contexts'  => '',
+            'username'      =>  $urldata[0],
+            'password'      =>  $urldata[1],
+            'returnUrl'     => '',
+            'rememberme'    => ''
+        );
+
+ $response = $modx->runProcessor('security/login', $properties);
+ if($response->isError()) {
+    return $response->getMessage();
+ }
+}
+$user_id = '';
+$user = $modx->getUser();
+
+if( $user->get('id')){
+  
+   $userauth = 0;
+   $user_id  = $user->get('id');
+   $profile  = $user->getOne('Profile');
+   if (!$profile) return '';
+   $user_email = $profile->get('email');
+}
+
 if(!$userauth){
+
     // Check User TODO: best way to handle manager login without exposing manager_url?
     if (!$modx->user) {
         $modx->sendRedirect($modx->getOption('manager_url'));
     }
-    if  (!$modx->user->isMember('Administrator')) return 'Only Administrators can authorize OAuth2 requests.';
+ ////if(!$modx->user->isMember('Administrator')) return 'Only Administrators can authorize OAuth2 requests.';
 
     // Options
     $authTpl = $modx->getOption('authTpl', $scriptProperties, 'oauth2server_auth_tpl');
@@ -52,8 +86,10 @@ if (!($oauth2 instanceof OAuth2Server)) {
     $modx->log(modX::LOG_LEVEL_ERROR, '[authorizeOAuth2] could not load the required class!');
     return;
 }
+
 // We need these
 $server = $oauth2->createServer();
+
 $request = $oauth2->createRequest();
 $response = $oauth2->createResponse();
 if (!$server || !$request || !$response) {
@@ -62,6 +98,7 @@ if (!$server || !$request || !$response) {
 }
 
 // Validate the authorization request
+
 if (!$server->validateAuthorizeRequest($request, $response)) {
     return 'The authorization request was invalid.';
 }
@@ -75,5 +112,12 @@ if (empty($post) && !$userauth) {
 
 // Redirect to stored redirect_uri for this client, if authorized
 $is_authorized = $userauth ? true : ($post[$authKey] === 'yes');
-$server->handleAuthorizeRequest($request, $response, $is_authorized);
+$server->handleAuthorizeRequest($request, $response, $is_authorized,$user_id);
+
+//For identifying the domain 
+if($modx->getOption('domain',null,null)!= null){
+   $domain = $modx->getOption('domain',null,null);
+   $headerWithDomain = $response->getHttpHeaders()['Location']."&email=".base64_encode($domain.'-gsmsaas-'.$user_email);
+  $response->setHttpHeaders(array('Location'=>$headerWithDomain));
+}
 $response->send();
