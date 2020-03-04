@@ -8,6 +8,11 @@ oauth2server.window.OAuth2ServerClients = function(config) {
         ,autoHeight: true
         ,fields: [{
             xtype: 'textfield'
+            ,fieldLabel: _('oauth2server.clients.domain_id')
+            ,name: 'domain_id'
+            ,anchor: '100%'
+        },{
+            xtype: 'textfield'
             ,fieldLabel: _('oauth2server.clients.client_id')
             ,name: 'client_id'
             ,anchor: '100%'
@@ -15,6 +20,16 @@ oauth2server.window.OAuth2ServerClients = function(config) {
             xtype: 'textfield'
             ,fieldLabel: _('oauth2server.clients.client_secret')
             ,name: 'client_secret'
+            ,anchor: '100%'
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('oauth2server.clients.base_url')
+            ,name: 'base_url'
+            ,anchor: '100%'
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('oauth2server.clients.login_url')
+            ,name: 'login_url'
             ,anchor: '100%'
         },{
             xtype: 'textfield'
@@ -31,9 +46,21 @@ oauth2server.window.OAuth2ServerClients = function(config) {
             ,fieldLabel: _('oauth2server.clients.scope')
             ,name: 'scope'
             ,anchor: '100%'
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('oauth2server.clients.token_controller_url')
+            ,name: 'token_controller_url'
+            ,anchor: '100%'
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('oauth2server.clients.authorize_url')
+            ,name: 'authorize_url'
+            ,anchor: '100%'
         }]
+         
     });
     oauth2server.window.OAuth2ServerClients.superclass.constructor.call(this,config);
 };
+
 Ext.extend(oauth2server.window.OAuth2ServerClients, MODx.Window);
 Ext.reg('oauth2server-window-clients', oauth2server.window.OAuth2ServerClients);
