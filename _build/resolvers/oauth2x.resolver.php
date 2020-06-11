@@ -36,6 +36,8 @@ if ($object->xpdo) {
             break;
 
         case xPDOTransport::ACTION_UPGRADE:
+         $manager->addField('OAuth2ServerClients','authorize_url');
+         $manager->addField('OAuth2ServerClients','token_controller_url');
             $modx->cacheManager->refresh(array(
                 'lexicon_topics' => array(
                     'lexicon' => array(
