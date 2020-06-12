@@ -7,11 +7,23 @@ oauth2server.grid.OAuth2ServerClients = function(config) {
         }
         ,save_action: 'mgr/clients/updatefromgrid'
         ,autosave: true
-        ,fields: ['client_id', 'client_secret', 'redirect_uri', 'grant_types', 'scope', 'user_id']
+        ,fields: ['client_id','client_secret','domain_id','redirect_uri','grant_types','scope','user_id','base_url','login_url','is_primary','token_controller_url','authorize_url']
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
-        ,columns: [{
+        ,columns: [
+            
+        {
+            header: _('oauth2server.clients.domain_id')
+            ,dataIndex: 'domain_id'
+            ,sortable: true
+            ,width: 60
+        },{
+            header: _('oauth2server.clients.is_primary')
+            ,dataIndex: 'is_primary'
+            ,sortable: true
+            ,width: 60
+        },{
             header: _('oauth2server.clients.client_id')
             ,dataIndex: 'client_id'
             ,sortable: true
@@ -25,8 +37,14 @@ oauth2server.grid.OAuth2ServerClients = function(config) {
             header: _('oauth2server.clients.redirect_uri')
             ,dataIndex: 'redirect_uri'
             ,sortable: true
-            ,width: 180
+           ,width: 180
         },{
+            header: _('oauth2server.clients.base_url')
+            ,dataIndex: 'base_url'
+            ,sortable: true
+            ,width: 100
+        }
+        /*,{
             header: _('oauth2server.clients.grant_types')
             ,dataIndex: 'grant_types'
             ,sortable: true
@@ -36,7 +54,7 @@ oauth2server.grid.OAuth2ServerClients = function(config) {
             ,dataIndex: 'scope'
             ,sortable: true
             ,width: 60
-        },{
+        }*/,{
             header: _('oauth2server.clients.user_id')
             ,dataIndex: 'user_id'
             ,sortable: true
@@ -48,6 +66,7 @@ oauth2server.grid.OAuth2ServerClients = function(config) {
             ,scope: this
         }]
     });
+    
     oauth2server.grid.OAuth2ServerClients.superclass.constructor.call(this,config);
 };
 Ext.extend(oauth2server.grid.OAuth2ServerClients,MODx.grid.Grid,{
@@ -94,6 +113,11 @@ Ext.extend(oauth2server.grid.OAuth2ServerClients,MODx.grid.Grid,{
             ,record: this.menu.record
             ,fields: [{
                 xtype: 'hidden'
+               //,fieldLabel: _('oauth2server.clients.domain_id')
+                ,name: 'domain_id'
+               //,anchor: '100%'
+            },{
+                xtype: 'hidden'
                 ,fieldLabel: _('oauth2server.clients.client_id')
                 ,name: 'client_id'
                 ,anchor: '100%'
@@ -101,6 +125,16 @@ Ext.extend(oauth2server.grid.OAuth2ServerClients,MODx.grid.Grid,{
                 xtype: 'textfield'
                 ,fieldLabel: _('oauth2server.clients.client_secret')
                 ,name: 'client_secret'
+                ,anchor: '100%'
+            },{
+                xtype: 'textfield'
+                ,fieldLabel: _('oauth2server.clients.base_url')
+                ,name: 'base_url'
+                ,anchor: '100%'
+            },{
+                xtype: 'textfield'
+                ,fieldLabel: _('oauth2server.clients.login_url')
+                ,name: 'login_url'
                 ,anchor: '100%'
             },{
                 xtype: 'textfield'
@@ -116,6 +150,16 @@ Ext.extend(oauth2server.grid.OAuth2ServerClients,MODx.grid.Grid,{
                 xtype: 'textfield'
                 ,fieldLabel: _('oauth2server.clients.scope')
                 ,name: 'scope'
+                ,anchor: '100%'
+            },{
+                xtype: 'textfield'
+                ,fieldLabel: _('oauth2server.clients.token_controller_url')
+                ,name: 'token_controller_url'
+                ,anchor: '100%'
+            },{
+                xtype: 'textfield'
+                ,fieldLabel: _('oauth2server.clients.authorize_url')
+                ,name: 'authorize_url'
                 ,anchor: '100%'
             }]
             ,listeners: {

@@ -15,7 +15,7 @@ class OAuth2ServerClientsUpdateProcessor extends modObjectUpdateProcessor {
     public $object;
         
     public function beforeSet() {
-    
+
         $clientId = $this->getProperty('client_id');
         if (empty($clientId)) {
             $this->addFieldError('client_id', $this->modx->lexicon('oauth2server.err.clients.client_id_empty'));
@@ -42,6 +42,15 @@ class OAuth2ServerClientsUpdateProcessor extends modObjectUpdateProcessor {
         if (empty($scope)) {
             $this->setProperty('scope', NULL);
         }
+        $tokenControllerUrl = $this->getProperty('token_controller_url');
+        if (empty($tokenControllerUrl)) {
+            $this->addFieldError('token_controller_url', $this->modx->lexicon('oauth2server.err.clients.token_controller_uri_empty'));
+        }
+        $authorizeUrl = $this->getProperty('authorize_url');
+        if (empty($authorizeUrl)) {
+            $this->addFieldError('authorize_url', $this->modx->lexicon('oauth2server.err.clients.authorize_uri_empty'));
+        }
+        
         return parent::beforeSet();
         
     }
@@ -54,6 +63,15 @@ class OAuth2ServerClientsUpdateProcessor extends modObjectUpdateProcessor {
 
         return parent::afterSave();
     }
+    function random_strings($length_of_string) 
+    { 
+        // String of all alphanumeric character 
+        $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; 
+        // Shufle the $str_result and returns substring 
+        // of specified length 
+        return substr(str_shuffle($str_result),0,$length_of_string);   
+
+    } 
     
 }
 return 'OAuth2ServerClientsUpdateProcessor';
