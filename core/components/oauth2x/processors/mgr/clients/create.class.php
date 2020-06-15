@@ -78,19 +78,27 @@ class OAuth2ServerClientsCreateProcessor extends modObjectCreateProcessor {
         $domainId = $this->getProperty('domain_id');
         if(empty($domainId)){
             $domainIdVal = $this->random_strings(10);
-            $this->setProperty('is_primary','Yes');
-
+           // $this->setProperty('is_primary','Yes');
         }else{
             $domainIdVal = $domainId;
-            $this->setProperty('is_primary','No');
-
+           // $this->setProperty('is_primary','No');
         }
         $this->setProperty('domain_id', $domainIdVal);
 
-        $userId = $this->getProperty('user_id');
+        $isPrimary = $this->getProperty('is_primary');
+
+        if($isPrimary){
+            $this->setProperty('is_primary', 'Yes');
+        }else{
+            $this->setProperty('is_primary', 'No');
+        }
+
+        $userId   = $this->getProperty('user_id');
         $modxUser = $this->modx->user->get('id');
         if (empty($userId)) {
+
             $this->setProperty('user_id', $modxUser);
+
         }
         
         return parent::beforeSet();

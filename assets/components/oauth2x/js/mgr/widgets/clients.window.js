@@ -56,6 +56,12 @@ oauth2server.window.OAuth2ServerClients = function(config) {
             ,fieldLabel: _('oauth2server.clients.authorize_url')
             ,name: 'authorize_url'
             ,anchor: '100%'
+        },{
+            xtype: 'xcheckbox'
+            ,fieldLabel: _('oauth2server.clients.set_primary')
+            ,name  : 'is_primary'
+            ,anchor: '100%'
+            ,inputValue:'Yes'
         }]
          
     });

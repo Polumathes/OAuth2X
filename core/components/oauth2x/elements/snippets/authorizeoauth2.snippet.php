@@ -31,8 +31,8 @@
  * @param int $userauth Set to 1 if using UserCredential grant type.
  */
 /*
-* Only for authorization code grand type
-*/
+ * Only for authorization code grand type
+ */
 if($_REQUEST['response_type']=='code'){
 
     $urldata      = explode('-gsmsaas-',base64_decode($_REQUEST['entrystate'],true));

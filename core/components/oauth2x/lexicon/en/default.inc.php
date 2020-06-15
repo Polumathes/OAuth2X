@@ -27,6 +27,9 @@ $_lang['oauth2server.clients.login_url'] = 'Login URI';
 $_lang['oauth2server.clients.is_primary'] = 'Is Primary Server';
 $_lang['oauth2server.clients.token_controller_url'] = 'Token URI';
 $_lang['oauth2server.clients.authorize_url'] = 'Authorize URI';
+$_lang['oauth2server.clients.set_primary'] = 'Set As Primary Account(Do Not Share Primary Accounts With Clients)';
+$_lang['oauth2server.clients.is_primary'] = 'Is Primary';
+
 
 
 $_lang['oauth2server.clients.redirect_uri'] = 'Redirect URI';

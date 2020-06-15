@@ -37,7 +37,7 @@ oauth2server.grid.OAuth2ServerClients = function(config) {
             header: _('oauth2server.clients.redirect_uri')
             ,dataIndex: 'redirect_uri'
             ,sortable: true
-           ,width: 180
+           ,width: 160
         },{
             header: _('oauth2server.clients.base_url')
             ,dataIndex: 'base_url'
@@ -59,7 +59,12 @@ oauth2server.grid.OAuth2ServerClients = function(config) {
             ,dataIndex: 'user_id'
             ,sortable: true
             ,width: 50
-        }]
+        },{
+                header: _('oauth2server.clients.is_primary')
+                ,dataIndex: 'is_primary'
+                ,sortable: true
+                ,width: 50
+            }]
         ,tbar: [{
             text: _('oauth2server.clients.add')
             ,handler: this.addClient
@@ -105,17 +110,17 @@ Ext.extend(oauth2server.grid.OAuth2ServerClients,MODx.grid.Grid,{
 
     ,updateClient: function(btn,e) {
         if (!this.menu.record || !this.menu.record.client_id) return false;
-        
+
         var updateClient = MODx.load({
             xtype: 'oauth2server-window-clients'
             ,title: _('oauth2server.clients.update') + this.menu.record.client_id
             ,action: 'mgr/clients/update'
             ,record: this.menu.record
             ,fields: [{
-                xtype: 'hidden'
-               //,fieldLabel: _('oauth2server.clients.domain_id')
+                xtype: 'textfield'
+               ,fieldLabel: _('oauth2server.clients.domain_id')
                 ,name: 'domain_id'
-               //,anchor: '100%'
+                ,anchor: '100%'
             },{
                 xtype: 'hidden'
                 ,fieldLabel: _('oauth2server.clients.client_id')
@@ -161,6 +166,13 @@ Ext.extend(oauth2server.grid.OAuth2ServerClients,MODx.grid.Grid,{
                 ,fieldLabel: _('oauth2server.clients.authorize_url')
                 ,name: 'authorize_url'
                 ,anchor: '100%'
+            },{
+                xtype: 'xcheckbox'
+                ,fieldLabel: _('oauth2server.clients.set_primary')
+                ,name  : 'is_primary'
+                ,id : 'is_primary'
+                ,anchor: '100%'
+                ,inputValue:'Yes'
             }]
             ,listeners: {
                 'success': {fn:function() { this.refresh(); },scope:this}
@@ -169,6 +181,11 @@ Ext.extend(oauth2server.grid.OAuth2ServerClients,MODx.grid.Grid,{
 
         updateClient.show(e.target);
         updateClient.setValues(this.menu.record);
+        if(this.menu.record.is_primary == 'Yes') {
+            var field = Ext.getCmp('is_primary');
+            //console.log(field);
+            if (field !== undefined) field.setValue(true);
+        }
         
     }
     
