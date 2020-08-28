@@ -50,6 +50,14 @@ class OAuth2ServerClientsUpdateProcessor extends modObjectUpdateProcessor {
         if (empty($authorizeUrl)) {
             $this->addFieldError('authorize_url', $this->modx->lexicon('oauth2server.err.clients.authorize_uri_empty'));
         }
+
+        $isPrimary = $this->getProperty('is_primary');
+
+        if($isPrimary){
+            $this->setProperty('is_primary', 'Yes');
+        }else{
+            $this->setProperty('is_primary', 'No');
+        }
         
         return parent::beforeSet();
         
