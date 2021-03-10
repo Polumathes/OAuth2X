@@ -1,4 +1,5 @@
 <?php
+
 /**
  * verifyOAuth2
  *
@@ -72,7 +73,14 @@ if (!$verified) {
 } else {
     //set the current user from the verified access token
     $token = $server->getAccessTokenData($request);
-    if(!empty($token['user_id'])) $modx->user = $modx->getObject('modUser',$token['user_id']);
+
+    if(!empty($token['user_id'])) {
+        $modx->user = $modx->getObject('modUser',$token['user_id']);
+
+        $arrayReturnOnSuccess = json_decode($returnOnSuccess,true);
+        $arrayReturnOnSuccess['token'] =  $token;
+        $returnOnSuccess = json_encode($arrayReturnOnSuccess);
+    }
 
     return $returnOnSuccess;
 }
