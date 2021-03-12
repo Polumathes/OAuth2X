@@ -26,13 +26,17 @@ Class motifControllerUserInfo extends motifGsmParentRestController {
 
         $is_valid = $this->isUser();
         if (!$is_valid) return $this->failure('Permission Denied');
-        $user = $this->modx->getObject('modUser',$this->modx->user->get('id'));
+        $user_class = $this->modx->user->get('class_key');
+        $user = $this->modx->getObject($user_class,$this->modx->user->get('id'));
+
         $profile = $user->getOne('Profile');
-        //TODO: Not getting data to fetch firstname,lastname
-        //$data   = $user->getOne('Data');
-        $res['id']= $profile->get('id');
+        $data    = $user->getOne('Data');
+
+        $res['id']   = $profile->get('id');
         $res['email']= $profile->get('email');
-        //$res['class']= $this->modx->user->get('class_key');
+        $res['marketing_fname']   = ($data != '')?$data->get('marketing_fname'):'';
+        $res['marketing_lname']= ($data != '')?$data->get('marketing_lname'):'';
+
         return $this->success('',$res);
 
     }
