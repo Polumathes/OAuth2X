@@ -42,6 +42,8 @@ Class motifControllerUserInfo extends motifGsmParentRestController {
         $res['email']= $profile->get('email');
         $res['marketing_fname']   = ($data != '')?$data->get('marketing_fname'):'';
         $res['marketing_lname']= ($data != '')?$data->get('marketing_lname'):'';
+        $res['photo']= ($profile->get('photo')!='')?MODX_SITE_URL.$profile->get('photo'):'';
+
         $res['permissions']= $this->getPermissions();
 
         return $this->success('',$res);
