@@ -4,8 +4,9 @@
  */
 
 //responses
-$successResponse = $modx->lexicon('OAuth2x.logout_success');
-$failureResponse = $modx->lexicon('OAuth2x.logout_failure');
+
+//$successResponse = $modx->lexicon('OAuth2x.logout_success');
+//$failureResponse = $modx->lexicon('OAuth2x.logout_failure');
 // Paths
 $oauth2Path = $modx->getOption('oauth2x.core_path', null, $modx->getOption('core_path') . 'components/oauth2x/');
 $oauth2Path .= 'model/oauth2x/';
