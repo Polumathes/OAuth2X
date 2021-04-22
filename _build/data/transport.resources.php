@@ -75,4 +75,21 @@ $resources[3]->fromArray(array (
 ), '', true, true);
 $resources[3]->setContent(file_get_contents($sources['data'].'resources/oauth2_verification_example.content.html'));
 
+$resources[4] = $modx->newObject('modResource');
+$resources[4]->fromArray(array (
+    'id' => 4,
+    'pagetitle' => 'OAuth2 User Logout',
+    'alias' => 'logout',
+    'template' => 0,
+    'content_type' => 7,
+    'published' => 1,
+    'hidemenu' => 1,
+    'cacheable' => 0,
+    'richtext' => 0,
+    'class_key' => 'modDocument',
+    'searchable' => '1',
+    'context_key' => 'web',
+), '', true, true);
+$resources[4]->setContent(file_get_contents($sources['data'].'resources/oauth2_user_logout.content.html'));
+
 return $resources;

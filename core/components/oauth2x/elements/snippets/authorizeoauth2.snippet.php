@@ -31,8 +31,10 @@
  * @param int $userauth Set to 1 if using UserCredential grant type.
  */
 /*
-* Only for authorization code grand type
-*/
+ * Only for authorization code grand type
+ */
+$is_app =  $_REQUEST['is_app'];
+
 if($_REQUEST['response_type']=='code'){
 
     $urldata      = explode('-gsmsaas-',base64_decode($_REQUEST['entrystate'],true));
@@ -72,7 +74,6 @@ if(!$userauth){
         $modx->sendRedirect($modx->getOption('manager_url'));
     }
     ////if(!$modx->user->isMember('Administrator')) return 'Only Administrators can authorize OAuth2 requests.';
-
     // Options
     $authTpl = $modx->getOption('authTpl', $scriptProperties, 'oauth2server_auth_tpl');
     $authKey = $modx->getOption('authKey', $scriptProperties, 'authorize');
@@ -92,7 +93,6 @@ if (!($oauth2 instanceof OAuth2Server)) {
 
 // We need these
 $server = $oauth2->createServer();
-
 $request = $oauth2->createRequest();
 $response = $oauth2->createResponse();
 if (!$server || !$request || !$response) {
@@ -110,13 +110,14 @@ if (!$server->validateAuthorizeRequest($request, $response)) {
 
 // Display an authorization form
 $post = modX::sanitize($_POST, $modx->sanitizePatterns);
-
-if (empty($post) && !$userauth) {
-    return $modx->getChunk($authTpl, array('auth_key' => $authKey));
-}
-
-// Redirect to stored redirect_uri for this client, if authorized
-$is_authorized = $userauth ? true : ($post[$authKey] === 'yes');
+//if($is_app == true){$is_authorized =true;
+//}else{
+    if (empty($post) && !$userauth) {
+        return $modx->getChunk($authTpl, array('auth_key' => $authKey));
+    }
+    // Redirect to stored redirect_uri for this client, if authorized
+    $is_authorized = $userauth ? true : ($post[$authKey] === 'yes');
+//}
 $server->handleAuthorizeRequest($request, $response, $is_authorized,$user_id);
 
 //For identifying the domain
@@ -125,4 +126,6 @@ if(!empty($domain)){
     $headerWithDomain = $response->getHttpHeaders()['Location']."&email=".base64_encode($domain.'-gsmsaas-'.$user_email).$urldatastg ;
     $response->setHttpHeaders(array('Location'=>$headerWithDomain));
 }
+if($is_app == true)return json_encode($response->getHttpHeaders());
+
 $response->send();

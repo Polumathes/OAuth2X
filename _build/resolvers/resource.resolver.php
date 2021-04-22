@@ -58,6 +58,11 @@ if($object->xpdo) {
                   'parent' => '0',
                   'template' => 0,
                 ),
+                3 =>  array (
+                    'pagetitle' => 'OAuth2 User Logout',
+                    'parent' => '0',
+                    'template' => 0,
+                ),
             );
 
             if (is_array($intersects)) {
