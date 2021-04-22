@@ -110,14 +110,14 @@ if (!$server->validateAuthorizeRequest($request, $response)) {
 
 // Display an authorization form
 $post = modX::sanitize($_POST, $modx->sanitizePatterns);
-if($is_app == true){$is_authorized =true;
-}else{
+//if($is_app == true){$is_authorized =true;
+//}else{
     if (empty($post) && !$userauth) {
         return $modx->getChunk($authTpl, array('auth_key' => $authKey));
     }
     // Redirect to stored redirect_uri for this client, if authorized
     $is_authorized = $userauth ? true : ($post[$authKey] === 'yes');
-}
+//}
 $server->handleAuthorizeRequest($request, $response, $is_authorized,$user_id);
 
 //For identifying the domain
